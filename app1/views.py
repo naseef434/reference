@@ -53,9 +53,8 @@ class MovieDetails(APIView):
            return Response(serilizers.data)
         except Movies.DoesNotExist:
             return Response({
-            
             "message" : f"{pk} nout found",
-            "status" : status.HTTP_201_CREATED,
+            "status" : status.HTTP_204_NO_CONTENT,
             
            })
 
