@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from app1.models import Movies
 class MovieSerilizer(serializers.ModelSerializer):
+    on_showing = serializers.SerializerMethodField()
     class Meta:
         model = Movies
         #fields = ['id','name','discription']
@@ -19,3 +20,8 @@ class MovieSerilizer(serializers.ModelSerializer):
         elif len(data['name']) > 10 : 
             raise serializers.ValidationError("name is too big")
         return data
+
+
+    def get_on_showing(self,data):
+        onshow = "Now Streaming!"
+        return onshow
