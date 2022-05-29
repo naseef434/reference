@@ -1,3 +1,4 @@
+from asyncore import read
 from dataclasses import fields
 from xml.parsers.expat import model
 from rest_framework import serializers
@@ -34,7 +35,8 @@ class MovieSerilizer(serializers.ModelSerializer):
         return onshow
 
 class StreamingSerializer(serializers.ModelSerializer):
-    watchLsit = MovieSerilizer(many=True, read_only=True)
+    movies = MovieSerilizer(many=True,read_only=True)
+    
     class Meta:
         model = StreamingPlaform
         fields = '__all__'

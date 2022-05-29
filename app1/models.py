@@ -13,7 +13,7 @@ class StreamingPlaform(models.Model):
 
 class Movies(models.Model):
     title = models.CharField(max_length=50)
-    platform = models.ForeignKey(StreamingPlaform, on_delete=models.CASCADE,related_name="watchLsit")
+    platform = models.ForeignKey(StreamingPlaform, on_delete=models.CASCADE,related_name="movies")
     story_line  = models.CharField(max_length=50)
     active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=False)

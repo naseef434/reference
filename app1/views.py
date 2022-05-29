@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 class StreamingPlatfromList(APIView):
     def get(self,request):
         query = StreamingPlaform.objects.all()
-        serilizers_class = StreamingSerializer(query, many=True)
+        serilizers_class = StreamingSerializer(query, many=True,context={'request': request})
         return Response(serilizers_class.data)
     def post(self,request):
         serilizers = StreamingSerializer(data=request.data)
@@ -21,11 +21,11 @@ class StreamingPlatfromList(APIView):
             serilizers.save()
             return Response(serilizers.data,status=status.HTTP_201_CREATED)
         return Response(serilizers.errors)
-            
+
 class Movie_list(APIView):
     def get(self,request):
         queryset = Movies.objects.all()
-        serializer = MovieSerilizer(queryset,many=True)
+        serializer = MovieSerilizer(queryset,many=True,)
         return Response(serializer.data)
     
     def post(self,request):
