@@ -1,13 +1,31 @@
+import imp
 from django.shortcuts import render
 from app1 import serilizers
-from app1.models import Movies,StreamingPlaform
-from app1.serilizers import MovieSerilizer,StreamingPlaform, StreamingSerializer
+from app1.models import Movies, Review,StreamingPlaform
+from app1.serilizers import MovieSerilizer, ReviewSerializer,StreamingPlaform, StreamingSerializer
 from rest_framework.response import Response
 from django.http import HttpResponse
 from rest_framework .decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework import mixins
+from rest_framework import generics
 
+class ReviewList(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+    def get(self,request,*args, **kwargs):
+        return self.list(request,*args, **kwargs)
+    def post(self,request,*args, **kwargs):
+        return self.create(request,*args, **kwargs)
+
+class ReviewDetails(mixins.RetrieveModelMixin,generics.GenericAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    
+    def get(self,request,*args, **kwargs):
+        return self.retrieve(request,*args, **kwargs)
 
 
 class StreamingPlatfromList(APIView):
@@ -45,6 +63,7 @@ class MovieDetails(APIView):
            queryset = Movies.objects.get(id=pk)
            serilizers = MovieSerilizer(queryset)
            return Response(serilizers.data)
+        
         except Movies.DoesNotExist:
             return Response({
             "message" : f"{pk} nout found",
