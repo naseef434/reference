@@ -2,14 +2,24 @@ from asyncore import read
 from dataclasses import fields
 from xml.parsers.expat import model
 from rest_framework import serializers
-from app1.models import Movies,StreamingPlaform
+from app1.models import Movies,StreamingPlaform,Review
 
 
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = '__all__'
 
 
 
 class MovieSerilizer(serializers.ModelSerializer):
     on_showing = serializers.SerializerMethodField()
+    review = ReviewSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Review
+        fields = '__all__'
+
     class Meta:
         model = Movies
         fields = '__all__'
@@ -28,6 +38,7 @@ class MovieSerilizer(serializers.ModelSerializer):
         elif len(data['name']) > 10 : 
             raise serializers.ValidationError("name is too big")
         return data
+
 
 
     def get_on_showing(self,data):
