@@ -26,7 +26,7 @@ class Movies(models.Model):
 
 class Review(models.Model):
     rating = models.PositiveIntegerField(validators= [MinValueValidator(1),MaxValueValidator(5)])
-    discription = models.CharField(max_length=50)
+    discription = models.CharField(max_length=500)
     movies = models.ForeignKey(Movies,on_delete=models.CASCADE,related_name='review')
     active = models.BooleanField(default=True)
     created_at =models.DateTimeField(auto_now_add=True)

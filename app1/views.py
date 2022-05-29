@@ -12,7 +12,7 @@ from rest_framework import mixins
 from rest_framework import generics
 
 class ReviewList(generics.ListCreateAPIView):
-    queryset = Review.objects.all()
+    queryset = Review.objects.all().order_by('id')
     serializer_class = ReviewSerializer
 
 class ReviewDetails(generics.RetrieveUpdateDestroyAPIView):
