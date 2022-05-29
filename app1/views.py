@@ -11,9 +11,27 @@ from rest_framework.views import APIView
 from rest_framework import mixins
 from rest_framework import generics
 
-class ReviewList(generics.ListCreateAPIView):
+
+class ReviewListAll(generics.ListAPIView):
     queryset = Review.objects.all().order_by('id')
     serializer_class = ReviewSerializer
+
+
+class ReviewList(generics.ListAPIView):
+    #queryset = Review.objects.all().order_by('id')
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Review.objects.filter(movies=pk)
+        
+class CreateReview(generics.CreateAPIView):
+    serializer_class = ReviewSerializer
+    def perform_create(self, serializer):
+        pk = self.kwargs['pk']
+        movie = Movies.objects.get(pk=pk)
+        serializer.save(movies=movie)
+          
 
 class ReviewDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
